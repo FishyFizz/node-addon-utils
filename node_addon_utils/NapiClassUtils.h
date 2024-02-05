@@ -142,3 +142,12 @@
     node_static_member_use_default_set(varname)\
     node_static_member_use_default_get(varname)
 
+#define node_custom_getter(getter)\
+    __pds[__pds.size()-1].getter = _static_##getter;
+#define node_custom_setter(setter)\
+    __pds[__pds.size()-1].setter = _static_##setter;
+
+#define node_custom_static_getter(getter)\
+    __pds[__pds.size()-1].getter = getter;
+#define node_custom_static_setter(setter)\
+    __pds[__pds.size()-1].setter = setter;

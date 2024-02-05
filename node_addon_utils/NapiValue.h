@@ -43,6 +43,7 @@ public:
     NapiValue(napi_env _env, cpp_type val)                          \
     {napi_create_##napi_type(env, val, &value); env = _env;}
 
+    constr_conversion(bool, int64)
     constr_conversion(uint8_t, int64)
     constr_conversion(int8_t, int64)
     constr_conversion(uint16_t, int64)
@@ -63,6 +64,7 @@ public:
         return result;                                          \
     }
 
+    numeric_conv(bool, int64, int64_t)
     numeric_conv(uint8_t, int64, int64_t)
     numeric_conv(int8_t, int64, int64_t)
     numeric_conv(uint16_t, int64, int64_t)
@@ -130,5 +132,13 @@ public:
         std::vector<std::string> vec = {"1","2","3","4","5"};
         auto arr = NapiValue(env, vec.begin(), vec.end());
         vec = arr;
+    }
+
+    template <class NativeClassType>
+    NativeClassType* Unwrap()
+    {
+        NativeClassType* ptr;
+        napi_unwrap(env, value, &ptr);
+        return ptr;
     }
 };

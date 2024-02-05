@@ -10,7 +10,15 @@
 class TestClass {
 public:
     node_destructor_callback(TestClass)
-    node_default_constructor_callback(TestClass)
+    //node_default_constructor_callback(TestClass)
+
+    node_constructor_callback_start(TestClass)
+    {
+        node_arg(int, x);
+        node_arg_this(TestClass, pthis);
+        TestClass* instance = new TestClass;
+        node_constructor_callback_end(TestClass, instance);
+    }
 
     std::string str;
     node_member_default_getset(str);

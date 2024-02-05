@@ -25,3 +25,4 @@
     return __null__;
 
 #define node_value(x) NapiValue(node_env, (x))
+#define node_array(itbegin, itend) NapiValue(node_env, (itbegin), (itend))
