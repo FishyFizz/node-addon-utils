@@ -1,0 +1,4 @@
+/example/node_modules/
+/example/cmake-build-debug/
+/example/build/
+/example/package-lock.json

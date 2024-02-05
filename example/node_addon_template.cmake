@@ -1,0 +1,21 @@
+cmake_policy(SET CMP0091 NEW)
+cmake_policy(SET CMP0042 NEW)
+
+macro(node_addon_target target_name)
+    add_library(${target_name} SHARED ${CMAKE_JS_SRC})
+    set_target_properties(${target_name} PROPERTIES PREFIX "" SUFFIX ".node")
+    set_target_properties(${target_name} PROPERTIES CXX_STANDARD 17)
+    target_compile_definitions(${target_name} PUBLIC -DNAPI_VERSION=4)
+    target_include_directories(${target_name} PUBLIC ${CMAKE_JS_INC})
+    target_include_directories(${target_name} SYSTEM PUBLIC node_modules/node-addon-api)
+    target_include_directories(${target_name} SYSTEM PUBLIC node_modules/node-api-headers/include)
+    target_include_directories(${target_name} PUBLIC ../node_addon_utils)
+    target_link_libraries(${target_name} ${CMAKE_JS_LIB})
+endmacro()
+
+macro(end_napi_cmake_project)
+    if(MSVC AND CMAKE_JS_NODELIB_DEF AND CMAKE_JS_NODELIB_TARGET)
+        # Generate node.lib
+        execute_process(COMMAND ${CMAKE_AR} /def:${CMAKE_JS_NODELIB_DEF} /out:${CMAKE_JS_NODELIB_TARGET} ${CMAKE_STATIC_LINKER_FLAGS})
+    endif()
+endmacro()
